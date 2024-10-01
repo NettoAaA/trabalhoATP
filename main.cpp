@@ -246,7 +246,7 @@ void ExcluiNota(_Nota nota[], _Aluno aluno[], _Disc disc[], int TLA, int TLD, in
 	}
 }
 
-int main(int argc, char** argv) {
+int main(void) {
 	_Aluno aluno[TF];
 	_Disc disc[TF];
 	_Nota nota[TF];
