@@ -246,6 +246,40 @@ void ExcluiNota(_Nota nota[], _Aluno aluno[], _Disc disc[], int TLA, int TLD, in
 	}
 }
 
+//função que recebe valores de teste
+
+void Teste(_Aluno aluno[], _Disc disc[], _Nota nota, int &TLA, int &TLD, int &TLN) {
+	
+	//cadastro alunos
+	strcpy(aluno[0].ra, "262411911");
+	strcpy(aluno[0].nome, "Jose Carlos");
+	
+	strcpy(aluno[1].ra, "272411911");
+	strcpy(aluno[1].nome, "Jubiscleusa");
+	
+	strcpy(aluno[2].ra, "281411911");
+	strcpy(aluno[2].nome, "Perisvaldo");
+	
+	strcpy(aluno[3].ra, "292411911");
+	strcpy(aluno[3].nome, "Will Smith");
+	
+	//cadastro disciplinas
+	disc[0].cod = 001;
+	strcpy(disc[0].nome, "Compressao de PDF");
+	
+	disc[1].cod = 002;
+	strcpy(disc[2].nome, "Formatacao de Windows ||");
+	
+	disc[2].cod = 003;
+	strcpy(disc[3].nome, "Configuracao de Roteadores |||");
+	
+	disc[3].cod = 004;
+	strcpy(disc[4].nome, "Conserto de Impressoras");
+	
+	//cadastro de notas
+	
+}
+
 int main(void) {
 	_Aluno aluno[TF];
 	_Disc disc[TF];
