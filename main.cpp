@@ -155,7 +155,7 @@ void CadastroNota(_Nota nota[], _Aluno aluno[], _Disc disc[], int TLA, int TLD, 
 					printf("\nInsira a nota do aluno: ");
 					scanf("%f", &nota[TL].nota);
 					
-					printf("\nAluno: %s\t Disciplina: %s\t Nota: %.2f\n", aluno[posAluno].nome, disc[posDisc].nome, nota[TL++].nota);
+					printf("\nAluno \t Disciplina \t Nota\n %s \t %s \t\t %.2f\n", aluno[posAluno].nome, disc[posDisc].nome, nota[TL++].nota);
 					getch();
 				}
 				else {
@@ -183,6 +183,69 @@ void CadastroNota(_Nota nota[], _Aluno aluno[], _Disc disc[], int TLA, int TLD, 
 	getch();
 }
 
+void ExcluiNota(_Nota nota[], _Aluno aluno[], _Disc disc[], int TLA, int TLD, int &TL) {
+	char auxRa[10], op;
+	int auxCodDisc, posAluno, posDisc, posNota;
+	
+	system("cls");
+	printf("\n### EXCLUIR NOTA ###\n");
+	printf("\nInsira o RA do aluno: ");
+	fflush(stdin);
+	gets(auxRa);
+	
+	while(TL > 0 && strcmp(auxRa, "\0")!=0) {
+		posAluno = BuscaAluno(aluno, auxRa, TLA);
+		
+		if(posAluno >= 0) {
+			printf("\nInsira o codigo da disciplina: ");
+			scanf("%d", &auxCodDisc);
+			posDisc = BuscaDisciplina(disc, auxCodDisc, TLD);
+			
+			if (posDisc >= 0) {
+				posNota = BuscaNota(nota, auxRa, auxCodDisc, TL);
+				
+				if(posNota >= 0) {
+					printf("\nAluno \t Disciplina \t Nota\n %s \t %s \t\t %.2f\n", aluno[posAluno].nome, disc[posDisc].nome, nota[posNota].nota);
+					printf("\nDeseja Excluir? ( S/N )\n");
+					op = toupper(getche());
+										
+					if (op == 'S') {
+						for (int i = posNota; i < TL-1;i++) {
+							nota[i] = nota[i+1];
+						}
+						TL--;
+						
+						printf("\n### NOTA EXCLUIDA COM SUCESSO! ###");
+						getch();
+					}
+					else
+						if(op == 'N') {
+							printf("\nPressione qualquer tecla para voltar...");
+							getch();
+					}
+				}
+				else {
+					printf("\n*** NOTA NAO ENCONTRADA ***\n");
+					getch();	
+				}
+			}
+			else {
+				printf("\n*** DISCIPLINA NAO ENCONTRADA ***\n");
+				getch();
+			}
+		}
+		else {
+			printf("\n*** RA NAO ENCONTRADO ***\n");
+			getch();	
+		}
+		
+		system("cls");
+		printf("\nInsira o RA do aluno: ");
+		fflush(stdin);
+		gets(auxRa);
+	}
+}
+
 int main(int argc, char** argv) {
 	_Aluno aluno[TF];
 	_Disc disc[TF];
@@ -192,6 +255,8 @@ int main(int argc, char** argv) {
 	CadastroAluno(aluno, TLA);
 	CadastroDisciplina(disc, TLD);
 	CadastroNota(nota, aluno, disc, TLA, TLD, TLN);
+	
+	ExcluiNota(nota, aluno, disc, TLA, TLD, TLN);
 	
 	return 0;
 }
