@@ -36,6 +36,18 @@ int BuscaAluno(_Aluno aluno[], char auxRa[10], int TL) {
 		return pos;
 }
 
+int BuscaAlunoEmNotas(char ra[], _Nota nota[], int TLN) {
+	int pos = 0;
+	
+	while(pos < TLN && strcmp(ra, nota[pos].ra)!=0)
+		pos++;
+		
+	if(pos == TLN)
+		return -1;
+	else
+		return pos;
+}
+
 void CadastroAluno(_Aluno aluno[], int &TL) {
 	char auxRa[30];
 	
@@ -68,6 +80,63 @@ void CadastroAluno(_Aluno aluno[], int &TL) {
 	
 	printf("\n### CADASTRO FINALIZADO ###\n");
 	getch();
+}
+
+void ExcluiAluno(_Aluno aluno[], _Nota nota[], int &TL, int TLN) {
+	char auxRa[10];
+	int posNota, posAluno;
+	
+	system("cls");
+	printf("\n### EXCLUSAO DE ALUNOS ###\n");
+	printf("\nInsira o RA do aluno que deseja excluir: ");
+	fflush(stdin);
+	gets(auxRa);
+	
+	while(TL > 0 && strcmp(auxRa, "\0")!=0) {
+		posNota = BuscaAlunoEmNotas(auxRa, nota, TLN);
+		posAluno = BuscaAluno(aluno, auxRa, TL);
+		
+		if (posAluno >= 0) {
+			if (posNota < 0) {
+				system("cls");
+				printf("Nome\t\t\tRA\n");
+				printf("%s\t\t\t%s", aluno[posAluno].nome, aluno[posAluno].ra);
+				printf("\nDeseja excluir este aluno? (S/N) ");
+				int op = toupper(getche());
+				
+				if(op == 'S') {
+					for(int i= posAluno;i < TL-1;i++)
+						aluno[i] = aluno[i+1];
+					TL--;
+				
+					system("cls");	
+					printf("\n*** ALUNO EXCLUIDO COM SUCESSO ***\n");
+					getch();	
+				}
+				else {
+					printf("\nPressione qualquer tecla para voltar...");
+					getch();
+				}
+			}
+			else {
+				system("cls");
+				printf("\n*** ALUNO COM CADASTROS FEITOS EM NOTAS: ***\n");
+				printf("\nPara excluir o aluno %s necessario a exclusao das notas!\n", aluno[posAluno].nome);
+				printf("\nPressione qualquer tecla para voltar...");
+				getch();
+			}	
+		}
+		else {
+			system("cls");
+			printf("\n*** ALUNO NAO ENCONTRADO ***\n");
+			getch();
+		}
+		
+		system("cls");
+		printf("\nInsira o RA do aluno que deseja excluir: ");
+		fflush(stdin);
+		gets(auxRa);	
+	}
 }
 
 //busca, cadastro, exclusão e alteração de disciplinas
@@ -250,7 +319,7 @@ void ExcluiNota(_Nota nota[], _Aluno aluno[], _Disc disc[], int TLA, int TLD, in
 
 void Teste(_Aluno aluno[], _Disc disc[], _Nota nota[], int &TLA, int &TLD, int &TLN) {
 	printf("\nCASO TENHA CADASTRADO ALGO, O CADASTRO VAI SER AUTOMATICAMENTE APAGADO\n");
-	printf("Deseja prosseguir (S/N)");
+	printf("\nDeseja prosseguir (S/N)\n");
 	char op = toupper(getche());
 	
 	if (op == 'S') {
@@ -279,10 +348,10 @@ void Teste(_Aluno aluno[], _Disc disc[], _Nota nota[], int &TLA, int &TLD, int &
 		strcpy(disc[0].nome, "Compressao de PDF");
 		
 		disc[1].cod = 002;
-		strcpy(disc[1].nome, "Formatacao de Windows ||");
+		strcpy(disc[1].nome, "Formatacao de Windows");
 		
 		disc[2].cod = 003;
-		strcpy(disc[2].nome, "Configuracao de Roteadores |||");
+		strcpy(disc[2].nome, "Arq. de roteadores");
 		
 		disc[3].cod = 004;
 		strcpy(disc[3].nome, "Conserto de Impressoras");
@@ -318,16 +387,19 @@ void Teste(_Aluno aluno[], _Disc disc[], _Nota nota[], int &TLA, int &TLD, int &
 		printf("\n### ALUNOS DISCIPLINAS E NOTAS CADASTRADAS ###\n");
 		
 		printf("\nAlunos: \n");
+		printf("\nNome\t\t\tRA\n");
 		for(int i=0;i < 5;i++)
-			printf("Nome: %s\t RA: %s\n", aluno[i].nome, aluno[i].ra);
+			printf("%s\t\t%s\n", aluno[i].nome, aluno[i].ra);
 			
 		printf("\nDisciplinas: \n");
+		printf("\nNome\t\t\t\t\tCodigo\n");
 		for(int i=0;i < 5;i++)
-			printf("Nome: %s\t Codigo: %d\n", disc[i].nome, disc[i].cod);
+			printf("%s\t\t\t%d\n", disc[i].nome, disc[i].cod);
 			
 		printf("\nNotas: \n");
+		printf("\nRA\t\t\tCodigo Disc\t\t\tNota\n");
 		for(int i=0;i < 5;i++)
-			printf("RA: %s\t Codigo Disciplina: %d\t Nota: %.2f\n", nota[i].ra, nota[i].cod, nota[i].nota);	
+			printf("%s\t\t\t%d\t\t\t%.2f\n", nota[i].ra, nota[i].cod, nota[i].nota);	
 	}
 	printf("\nPressione qualquer tecla para voltar...");
 	getch();
@@ -341,11 +413,12 @@ int main(void) {
 	
 	Teste(aluno, disc, nota, TLA, TLD, TLN);
 	
-	CadastroAluno(aluno, TLA);
-	CadastroDisciplina(disc, TLD);
-	CadastroNota(nota, aluno, disc, TLA, TLD, TLN);
-	
-	ExcluiNota(nota, aluno, disc, TLA, TLD, TLN);
+	//CadastroAluno(aluno, TLA);
+//	CadastroDisciplina(disc, TLD);
+//	CadastroNota(nota, aluno, disc, TLA, TLD, TLN);
+//	
+//	ExcluiNota(nota, aluno, disc, TLA, TLD, TLN);
+	ExcluiAluno(aluno, nota, TLA, TLN);
 	
 	return 0;
 }
