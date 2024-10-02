@@ -248,36 +248,89 @@ void ExcluiNota(_Nota nota[], _Aluno aluno[], _Disc disc[], int TLA, int TLD, in
 
 //função que recebe valores de teste
 
-void Teste(_Aluno aluno[], _Disc disc[], _Nota nota, int &TLA, int &TLD, int &TLN) {
+void Teste(_Aluno aluno[], _Disc disc[], _Nota nota[], int &TLA, int &TLD, int &TLN) {
+	printf("\nCASO TENHA CADASTRADO ALGO, O CADASTRO VAI SER AUTOMATICAMENTE APAGADO\n");
+	printf("Deseja prosseguir (S/N)");
+	char op = toupper(getche());
 	
-	//cadastro alunos
-	strcpy(aluno[0].ra, "262411911");
-	strcpy(aluno[0].nome, "Jose Carlos");
+	if (op == 'S') {
+		TLA = 0;
+		TLD = 0;
+		TLN = 0;
+		
+		//cadastro alunos
+		strcpy(aluno[0].ra, "262411911");
+		strcpy(aluno[0].nome, "Jose Carlos");
+		
+		strcpy(aluno[1].ra, "272411911");
+		strcpy(aluno[1].nome, "Jubiscleusa");
+		
+		strcpy(aluno[2].ra, "281411911");
+		strcpy(aluno[2].nome, "Perisvaldo");
+		
+		strcpy(aluno[3].ra, "292411911");
+		strcpy(aluno[3].nome, "Will Smith");
 	
-	strcpy(aluno[1].ra, "272411911");
-	strcpy(aluno[1].nome, "Jubiscleusa");
+		strcpy(aluno[4].ra, "302411911");
+		strcpy(aluno[4].nome, "Fausto Silva");
+		
+		//cadastro disciplinas
+		disc[0].cod = 001;
+		strcpy(disc[0].nome, "Compressao de PDF");
+		
+		disc[1].cod = 002;
+		strcpy(disc[1].nome, "Formatacao de Windows ||");
+		
+		disc[2].cod = 003;
+		strcpy(disc[2].nome, "Configuracao de Roteadores |||");
+		
+		disc[3].cod = 004;
+		strcpy(disc[3].nome, "Conserto de Impressoras");
 	
-	strcpy(aluno[2].ra, "281411911");
-	strcpy(aluno[2].nome, "Perisvaldo");
-	
-	strcpy(aluno[3].ra, "292411911");
-	strcpy(aluno[3].nome, "Will Smith");
-	
-	//cadastro disciplinas
-	disc[0].cod = 001;
-	strcpy(disc[0].nome, "Compressao de PDF");
-	
-	disc[1].cod = 002;
-	strcpy(disc[2].nome, "Formatacao de Windows ||");
-	
-	disc[2].cod = 003;
-	strcpy(disc[3].nome, "Configuracao de Roteadores |||");
-	
-	disc[3].cod = 004;
-	strcpy(disc[4].nome, "Conserto de Impressoras");
-	
-	//cadastro de notas
-	
+		disc[4].cod = 005;
+		strcpy(disc[4].nome, "League of Legends");
+		
+		//cadastro de notas
+		strcpy(nota[0].ra, "262411911");
+		nota[0].cod = 001;
+		nota[0].nota = 7.8;
+		
+		strcpy(nota[1].ra, "262411911");
+		nota[1].cod = 002;
+		nota[1].nota = 6.5;
+		
+		strcpy(nota[2].ra, "272411911");
+		nota[2].cod = 003;
+		nota[2].nota = 7.8;
+		
+		strcpy(nota[3].ra, "302411911");
+		nota[3].cod = 005;
+		nota[3].nota = 0.2;
+		
+		strcpy(nota[4].ra, "282411911");
+		nota[4].cod = 004;
+		nota[4].nota = 8.1;
+		
+		TLA = 5;
+		TLD = 5;
+		TLN = 5;
+		
+		printf("\n### ALUNOS DISCIPLINAS E NOTAS CADASTRADAS ###\n");
+		
+		printf("\nAlunos: \n");
+		for(int i=0;i < 5;i++)
+			printf("Nome: %s\t RA: %s\n", aluno[i].nome, aluno[i].ra);
+			
+		printf("\nDisciplinas: \n");
+		for(int i=0;i < 5;i++)
+			printf("Nome: %s\t Codigo: %d\n", disc[i].nome, disc[i].cod);
+			
+		printf("\nNotas: \n");
+		for(int i=0;i < 5;i++)
+			printf("RA: %s\t Codigo Disciplina: %d\t Nota: %.2f\n", nota[i].ra, nota[i].cod, nota[i].nota);	
+	}
+	printf("\nPressione qualquer tecla para voltar...");
+	getch();
 }
 
 int main(void) {
@@ -285,6 +338,8 @@ int main(void) {
 	_Disc disc[TF];
 	_Nota nota[TF];
 	int TLA=0, TLD=0, TLN=0;
+	
+	Teste(aluno, disc, nota, TLA, TLD, TLN);
 	
 	CadastroAluno(aluno, TLA);
 	CadastroDisciplina(disc, TLD);
