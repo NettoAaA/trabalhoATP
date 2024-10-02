@@ -205,7 +205,7 @@ void ExcluiDisciplina(_Disc disc[], _Nota nota[], int &TL, int TLN) {
 	printf("\nInsira o codigo da disciplina ou digite 0 para sair: ");
 	scanf("%d", &auxCod);
 	
-	while(TL < 0 && auxCod != 0) {
+	while(TL > 0 && auxCod != 0) {
 		posDisc = BuscaDisciplina(disc, auxCod, TL);
 		posNota = BuscaDisciplinaEmNotas(nota, auxCod, TLN);
 		
@@ -213,7 +213,7 @@ void ExcluiDisciplina(_Disc disc[], _Nota nota[], int &TL, int TLN) {
 			if(posNota < 0) {
 				system("cls");
 				printf("\nNome\t\t\tCodigo\n");
-				printf("%s\t\t\t%d\n", disc[posDisc].nome, disc[posDisc].cod);
+				printf("%s\t%d\n", disc[posDisc].nome, disc[posDisc].cod);
 				printf("\nDeseja excluir essa disciplina? (S/N): ");
 				int op = toupper(getche());
 				
@@ -242,7 +242,7 @@ void ExcluiDisciplina(_Disc disc[], _Nota nota[], int &TL, int TLN) {
 		}
 		
 		system("cls");
-		printf("\n### CADASTRO DE DISCIPLINAS ###\n");
+		printf("\n### EXCLUIR DISCIPLINA ###\n");
 		printf("\nInsira o codigo da disciplina ou 0 para sair: ");
 		scanf("%d", &auxCod);
 	}
@@ -407,40 +407,40 @@ void Teste(_Aluno aluno[], _Disc disc[], _Nota nota[], int &TLA, int &TLD, int &
 		strcpy(aluno[4].nome, "Fausto Silva");
 		
 		//cadastro disciplinas
-		disc[0].cod = 001;
+		disc[0].cod = 123;
 		strcpy(disc[0].nome, "Compressao de PDF");
 		
-		disc[1].cod = 002;
+		disc[1].cod = 456;
 		strcpy(disc[1].nome, "Formatacao de Windows");
 		
-		disc[2].cod = 003;
+		disc[2].cod = 789;
 		strcpy(disc[2].nome, "Arq. de roteadores");
 		
-		disc[3].cod = 004;
+		disc[3].cod = 987;
 		strcpy(disc[3].nome, "Conserto de Impressoras");
 	
-		disc[4].cod = 005;
+		disc[4].cod = 654;
 		strcpy(disc[4].nome, "League of Legends");
 		
 		//cadastro de notas
 		strcpy(nota[0].ra, "262411911");
-		nota[0].cod = 001;
+		nota[0].cod = 456;
 		nota[0].nota = 7.8;
 		
 		strcpy(nota[1].ra, "262411911");
-		nota[1].cod = 002;
+		nota[1].cod = 789;
 		nota[1].nota = 6.5;
 		
 		strcpy(nota[2].ra, "272411911");
-		nota[2].cod = 003;
+		nota[2].cod = 456;
 		nota[2].nota = 7.8;
 		
 		strcpy(nota[3].ra, "302411911");
-		nota[3].cod = 005;
+		nota[3].cod = 789;
 		nota[3].nota = 0.2;
 		
 		strcpy(nota[4].ra, "282411911");
-		nota[4].cod = 004;
+		nota[4].cod = 654;
 		nota[4].nota = 8.1;
 		
 		TLA = 5;
