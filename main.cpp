@@ -105,7 +105,7 @@ void ExcluiAluno(_Aluno aluno[], _Nota nota[], int &TL, int TLN) {
 				int op = toupper(getche());
 				
 				if(op == 'S') {
-					for(int i= posAluno;i < TL-1;i++)
+					for(int i=posAluno; i < TL-1; i++)
 						aluno[i] = aluno[i+1];
 					TL--;
 				
@@ -153,6 +153,18 @@ int BuscaDisciplina(_Disc disc[], int auxCodDisc, int TL) {
 		return pos;
 }
 
+int BuscaDisciplinaEmNotas(_Nota nota[], int auxCod, int TLN) {
+	int pos = 0;
+	
+	while(pos < TLN && nota[pos].cod != auxCod)
+		pos++;
+		
+	if (pos == TLN)
+		return -1;
+	else
+		return pos;
+}
+
 void CadastroDisciplina(_Disc disc[], int &TL) {
 	int auxCodDisc;
 	
@@ -183,6 +195,57 @@ void CadastroDisciplina(_Disc disc[], int &TL) {
 	
 	printf("\n### CADASTRO FINALIZADO ###\n");
 	getch();
+}
+
+void ExcluiDisciplina(_Disc disc[], _Nota nota[], int &TL, int TLN) {
+	int auxCod, posDisc, posNota;
+	
+	system("cls");
+	printf("\n### EXCLUIR DISCIPLINA ###\n");
+	printf("\nInsira o codigo da disciplina ou digite 0 para sair: ");
+	scanf("%d", &auxCod);
+	
+	while(TL < 0 && auxCod != 0) {
+		posDisc = BuscaDisciplina(disc, auxCod, TL);
+		posNota = BuscaDisciplinaEmNotas(nota, auxCod, TLN);
+		
+		if (posDisc >= 0) {
+			if(posNota < 0) {
+				system("cls");
+				printf("\nNome\t\t\tCodigo\n");
+				printf("%s\t\t\t%d\n", disc[posDisc].nome, disc[posDisc].cod);
+				printf("\nDeseja excluir essa disciplina? (S/N): ");
+				int op = toupper(getche());
+				
+				if (op == 'S') {
+					for (int i=posDisc; i<TL-1; i++)
+						disc[i] = disc[i+1];
+					TL--;
+					
+					system("cls");
+					printf("\n*** DISCIPLINA EXCLUIDA COM SUCESSO ***\n");
+					getch();
+				}
+			}
+			else {
+				system("cls");
+				printf("\n*** DISCIPLINA COM CADASTROS FEITOS EM NOTAS: ***\n");
+				printf("\nPara excluir a disciplina %s necessario a exclusao das notas!\n", disc[posDisc].nome);
+				printf("\nPressione qualquer tecla para voltar...");
+				getch();
+			}
+		}
+		else {
+			system("cls");
+			printf("\n*** DISCIPLINA NAO ENCONTRADA ***");
+			getch();
+		}
+		
+		system("cls");
+		printf("\n### CADASTRO DE DISCIPLINAS ###\n");
+		printf("\nInsira o codigo da disciplina ou 0 para sair: ");
+		scanf("%d", &auxCod);
+	}
 }
 
 //busca, cadastro, exclusão e alteração de notas
@@ -418,7 +481,8 @@ int main(void) {
 //	CadastroNota(nota, aluno, disc, TLA, TLD, TLN);
 //	
 //	ExcluiNota(nota, aluno, disc, TLA, TLD, TLN);
-	ExcluiAluno(aluno, nota, TLA, TLN);
+//	ExcluiAluno(aluno, nota, TLA, TLN);
+	ExcluiDisciplina(disc, nota, TLD, TLN);
 	
 	return 0;
 }
