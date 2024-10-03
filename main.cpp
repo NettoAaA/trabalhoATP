@@ -155,10 +155,9 @@ void AlteraAluno(_Aluno aluno[], _Nota nota[], int TL, int TLN) {
 		
 		if (posAluno >= 0) {
 				system("cls");
-				printf("\nNome\tRA\n");
-				printf("\n%s\t%s\n", aluno[posAluno].nome, aluno[posAluno].ra);
+				printf("\nNome: %s\tRA: %s\n", aluno[posAluno].nome, aluno[posAluno].ra);
 				printf("%d", posNota);	
-				printf("\nOque deseja alterar?\n A-RA\n B-Nome\n C-Voltar\n");
+				printf("\nOque deseja alterar?\n A - RA\n B - Nome\n C - Voltar\n");
 				int op = toupper(getche());
 				
 				switch(op) {
@@ -188,12 +187,11 @@ void AlteraAluno(_Aluno aluno[], _Nota nota[], int TL, int TLN) {
 								strcpy(aluno[posAluno].ra, auxAltRa);
 								strcpy(nota[posNota].ra, auxAltRa);
 								
-								printf("\nNovo RA: %s", aluno[posAluno].ra);
-								getch();
+								printf("\nNovo RA: %s\n", aluno[posAluno].ra);
 							}
-							printf("\nPressione qualquer tecla para voltar...");
-							getch();
 						}
+						printf("\nPressione qualquer tecla para voltar...");
+						getch();
 						break;
 					
 					case'B':
@@ -330,6 +328,78 @@ void ExcluiDisciplina(_Disc disc[], _Nota nota[], int &TL, int TLN) {
 		
 		system("cls");
 		printf("\n### EXCLUIR DISCIPLINA ###\n");
+		printf("\nInsira o codigo da disciplina ou 0 para sair: ");
+		scanf("%d", &auxCod);
+	}
+}
+
+void AlteraDisciplina(_Disc disc[], _Nota nota[], int TL, int TLN) {
+	int auxCod, posDisc, posNota;
+	
+	system("cls");
+	printf("\n### ALTERAR DISCIPLINAS ###\n");
+	printf("\nInsira o codigo da disciplina ou 0 para sair: ");
+	scanf("%d", &auxCod);
+	
+	while(auxCod != 0) {
+		posDisc = BuscaDisciplina(disc, auxCod, TL);
+		posNota = BuscaDisciplinaEmNotas(nota, auxCod, TLN);
+		
+		if (posDisc >= 0) {
+			system("cls");
+			printf("\nNome da disciplina: %s\tCodigo: %d", disc[posDisc].nome, disc[posDisc].cod);
+			printf("\nOque deseja alterar?\n A - Codigo\n B - Nome\n C - Voltar\n");
+			int op = toupper(getche());
+			
+			switch(op) {
+				case 'A':
+					if (posNota < 0) {
+						system("cls");
+						printf("\nInsira o novo codigo: ");
+						scanf("%d", &disc[posDisc].cod);
+						
+						printf("\nNovo codigo: %d", disc[posDisc].cod);
+						getch();
+					}
+					else {
+						system("cls");
+						printf("\n*** ALUNO COM CADASTROS FEITOS EM NOTAS: ***\n");
+						printf("\nDeseja alterar o cadastro do aluno nas notas? (S/N) : \n");
+						int opAlt = toupper(getche());
+						
+						if (opAlt == 'S') {
+							int auxAltCod;
+							system("cls");
+							printf("\nInsira o novo codigo: ");
+							scanf("%d", &auxAltCod);
+							
+							disc[posDisc].cod = auxAltCod;
+							nota[posNota].cod = auxAltCod;
+							
+							printf("\nNovo codigo: %d", disc[posDisc].cod);
+						}
+					}
+					printf("\nPressione qualquer tecla para voltar...");
+					getch();
+					break;
+					
+				case 'B':
+					system("cls");
+					printf("\nInsira o novo nome: ");
+					fflush(stdin);
+					gets(disc[posDisc].nome);
+					
+					printf("\nNovo nome: %s", disc[posDisc].nome);
+					getch();
+					break;
+			}
+		}
+		else {
+			printf("\n*** DISCIPLINA NAO ENCONTRADA ***\n");
+			getch();
+		}
+		system("cls");
+		printf("\n### ALTERAR DISCIPLINAS ###\n");
 		printf("\nInsira o codigo da disciplina ou 0 para sair: ");
 		scanf("%d", &auxCod);
 	}
@@ -642,7 +712,8 @@ int main(void) {
 //	ExcluiDisciplina(disc, nota, TLD, TLN);
 
 //	AlteraNota(nota, TLN);
-	AlteraAluno(aluno, nota, TLA, TLN);
+//	AlteraAluno(aluno, nota, TLA, TLN);
+AlteraDisciplina(disc, nota, TLD, TLN);
 	
 	
 	
