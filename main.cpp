@@ -392,6 +392,12 @@ void AlteraDisciplina(_Disc disc[], _Nota nota[], int TL, int TLN) {
 					printf("\nNovo nome: %s", disc[posDisc].nome);
 					getch();
 					break;
+					
+				case 'C':
+					system("cls");
+					printf("\nPressione qualquer tecla para voltar...");
+					getch();
+					break;
 			}
 		}
 		else {
@@ -695,6 +701,78 @@ void Teste(_Aluno aluno[], _Disc disc[], _Nota nota[], int &TLA, int &TLD, int &
 	getch();
 }
 
+//relatorios
+
+int Split(char palavra[], char vetPalavras[TF][30]) {
+	int TLVP = 0;
+	char auxPalavra[30];
+	int TLAP = 0;
+	
+	for (int i=0; palavra[i] != '\0';i++) {
+		if (palavra[i] == ' ') {
+			if (TLAP > 0) {
+				auxPalavra[TLAP] = '\0';
+				strcpy(vetPalavras[TLVP++], auxPalavra);
+				TLAP = 0;
+			}
+		}
+		else 
+			auxPalavra[TLAP++] = palavra[i];
+	}
+	
+	if (TLAP > 0) {
+		auxPalavra[TLAP] = '\0';
+		strcpy(vetPalavras[TLVP++], auxPalavra);
+	}
+	
+	return TLVP;
+}
+
+int BuscaPalavraDisc(_Disc disc[], char palavra[], int TL, int vetPosDisc[]) {
+	int TLVP, TLVPD = 0;
+	char vetPalavras[TF][30];
+		
+	for (int i=0; i < TL;i++) {
+		TLVP = Split(disc[i].nome, vetPalavras);
+		for (int j=0; j < TLVP;j++) {
+			if (stricmp(palavra, vetPalavras[j])==0)
+				vetPosDisc[TLVPD++] = i;
+		}
+	}
+	
+	if (TLVPD == 0)
+		return -1;
+	else
+		return TLVPD;
+}
+
+void RelatorioPalavraDisc(_Disc disc[], int TL) {
+	char palavra[30];
+	int vetPosDisc[TF];
+		
+	system("cls");
+	printf("\n### PESQUISA POR PALAVRA ###\n");
+	printf("\nInsira a palavra que deseja procurar em disciplinas: ");
+	fflush(stdin);
+	gets(palavra);
+	
+	while (strcmp(palavra, "\0")!=0) {
+		printf("\n### DISCIPLINAS COM A PALAVRA: %s ###\n", palavra);
+		int TLVPD = BuscaPalavraDisc(disc, palavra, TL, vetPosDisc);
+		printf("%d", TLVPD);
+		for (int i = 0; i < TLVPD; i++) {
+			printf("\n%s", disc[vetPosDisc[i]].nome);
+		}
+		getch();
+		
+		system("cls");
+		printf("\n### PESQUISA POR PALAVRA ###\n");
+		printf("\nInsira a palavra que deseja procurar em disciplinas: ");
+		fflush(stdin);
+		gets(palavra);
+	}
+}
+
 int main(void) {
 	_Aluno aluno[TF];
 	_Disc disc[TF];
@@ -702,7 +780,7 @@ int main(void) {
 	int TLA=0, TLD=0, TLN=0;
 	
 	Teste(aluno, disc, nota, TLA, TLD, TLN);
-	
+//	
 	//CadastroAluno(aluno, TLA);
 //	CadastroDisciplina(disc, TLD);
 //	CadastroNota(nota, aluno, disc, TLA, TLD, TLN);
@@ -713,9 +791,6 @@ int main(void) {
 
 //	AlteraNota(nota, TLN);
 //	AlteraAluno(aluno, nota, TLA, TLN);
-AlteraDisciplina(disc, nota, TLD, TLN);
-	
-	
-	
-	return 0;
+//AlteraDisciplina(disc, nota, TLD, TLN);
+RelatorioPalavraDisc(disc, TLD);
 }
