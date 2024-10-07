@@ -767,9 +767,30 @@ void RelatorioPalavraDisc(_Disc disc[], int TL) {
 		
 		system("cls");
 		printf("\n### PESQUISA POR PALAVRA ###\n");
-		printf("\nInsira a palavra que deseja procurar em disciplinas: ");
-		fflush(stdin);
+		printf("\nInsira a palavra que deseja procurar em disciplinas: ");-
 		gets(palavra);
+	}
+}
+
+void RelatorioMedia(_Disc disc[], _Nota nota[], int TL, int TLN) {
+	float media, soma;
+	int cont;
+	
+	for (int i = 0;i < TL;i++) {
+		media = 0;
+		soma = 0;
+		cont = 0;
+		for (int j = 0;j < TLN;j++) {
+			if (disc[i].cod == nota[j].cod) {
+				soma += nota[j].nota;
+				cont++;
+			}
+		}
+		media = soma/cont;
+		
+		if (media < 6) {
+			printf("");	
+		}
 	}
 }
 
