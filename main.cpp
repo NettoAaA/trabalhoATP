@@ -767,7 +767,8 @@ void RelatorioPalavraDisc(_Disc disc[], int TL) {
 		
 		system("cls");
 		printf("\n### PESQUISA POR PALAVRA ###\n");
-		printf("\nInsira a palavra que deseja procurar em disciplinas: ");-
+		printf("\nInsira a palavra que deseja procurar em disciplinas: ");
+		fflush(stdin);
 		gets(palavra);
 	}
 }
@@ -776,6 +777,8 @@ void RelatorioMedia(_Disc disc[], _Nota nota[], int TL, int TLN) {
 	float media, soma;
 	int cont;
 	
+	system("cls");
+	printf("\n### DISCIPLINAS COM MEDIA ABAIXO DE 6 ###\n");
 	for (int i = 0;i < TL;i++) {
 		media = 0;
 		soma = 0;
@@ -789,9 +792,29 @@ void RelatorioMedia(_Disc disc[], _Nota nota[], int TL, int TLN) {
 		media = soma/cont;
 		
 		if (media < 6) {
-			printf("");	
+			printf("\nDisciplina: %s\tMedia: %.2f", disc[i].nome, media);
 		}
 	}
+}
+
+void RelatorioGeral(_Nota nota[], _Aluno aluno[], _Disc disc[], int TLN, int TLA, int TLD) {
+	int posNota;
+	printf("\n### RELATORIO GERAL ###\n");
+	for (int i=0; i<TLA;i++) {
+		printf("RA: %s\tNome: %s", aluno[i].ra, aluno[i].nome);
+		for (int j=0; j<TLD;j++) {
+			posNota = BuscaNota(nota, aluno[i].ra, disc[j].cod, TLN);
+			if (posNota >= 0) {
+				if (nota[posNota].nota < 6)
+					printf("\nDisciplina: %d - %s\t\tNota: %.2f\tSituacao: Reprovado", disc[j].cod, disc[j].nome, nota[posNota].nota);
+				else
+					printf("\nDisciplina: %d - %s\t\tNota: %.2f\tSituacao: Aprovado", disc[j].cod, disc[j].nome, nota[posNota].nota);
+			}
+		}
+		printf("\n\n");
+	}
+	
+	getch();
 }
 
 int main(void) {
@@ -813,5 +836,7 @@ int main(void) {
 //	AlteraNota(nota, TLN);
 //	AlteraAluno(aluno, nota, TLA, TLN);
 //AlteraDisciplina(disc, nota, TLD, TLN);
-RelatorioPalavraDisc(disc, TLD);
+//RelatorioPalavraDisc(disc, TLD);
+//RelatorioMedia(disc, nota, TLD, TLN);
+RelatorioGeral(nota, aluno, disc, TLN, TLA, TLD);
 }
